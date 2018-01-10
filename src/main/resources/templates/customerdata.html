@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Clients Data</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<a th:href="@{/customers}">Back Too Client List</a>
+
+<br/>
+<br/>
+<h1>Customer Details</h1>
+<form th:object="${customer}">
+    <table border="1">
+        <tr>
+            <th width="80">ID</th>
+            <th width="120">RegNr</th>
+            <th width="360">Name</th>
+            <th width="360">Address</th>
+            <th width="240">EMail</th>
+        </tr>
+        <tr>
+            <td th:utext="${customer.id}">...</td>
+            <td th:utext="${customer.regNr}">...</td>
+            <td th:utext="${customer.name}">...</td>
+            <td th:utext="${customer.address}">...</td>
+            <td th:utext="${customer.email}">...</td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

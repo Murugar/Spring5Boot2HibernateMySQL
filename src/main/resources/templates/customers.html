@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Clients</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<a th:href="@{/}">Back to Main Menu</a>
+
+<br/>
+<br/>
+
+<h1>Client List</h1>
+
+<th:if test="${!empty listCustomers}">
+    <div>
+        <table border="1">
+            <tr>
+                <th width="80">ID</th>
+                <th width="120">Reg.Nr</th>
+                <th width="360">Name</th>
+                <th width="360">EMail</th>
+                <th width="60">View</th>
+                <th width="60">Edit</th>
+                <th width="60">Delete</th>
+            </tr>
+            <tr th:each="customer : ${listCustomers}">
+                <td th:utext="${customer.id}">...</td>
+                <td th:utext="${customer.regNr}">...</td>
+                <td th:utext="${customer.name}">...</td>
+                <td th:utext="${customer.email}">...</td>
+                <td><a th:href="@{'/customerdata/'+${customer.id}}">View</a></td>
+                <td><a th:href="@{'/edit/'+${customer.id}}">Edit</a></td>
+                <td><a th:href="@{'/remove/'+${customer.id}}">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+</th:if>
+
+<h1>Add a Client</h1>
+
+<form th:action="@{/customer/add}" th:object="${customer}" method="post">
+    <table border="1">
+        <tr>
+            <td width="80">ID</td>
+            <td><input th:field="*{id}" readonly='readonly'/></td>
+        </tr>
+        <tr>
+            <td width="80">Reg.Nr.</td>
+            <td><input th:field="*{regNr}"/></td>
+        </tr>
+        <tr>
+            <td width="80">Name</td>
+            <td><input th:field="*{name}"/></td>
+        </tr>
+        <tr>
+            <td width="80">Address</td>
+            <td><input th:field="*{address}"/></td>
+        </tr>
+        <tr>
+            <td width="80">EMail</td>
+            <td><input th:field="*{email}"/></td>
+        </tr>
+    </table>
+    <p>
+        <input type="submit" value="Edit Customer"
+               th:if="${customer.regNr != null}"/>
+        <input type="submit" value="Add Customer"
+               th:if="${customer.regNr == null}"/>
+    </p>
+</form>
+
+</body>
+</html>
+
+
