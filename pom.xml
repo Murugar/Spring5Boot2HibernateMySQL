@@ -7,7 +7,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>customermanager2</name>
+    <name>Spring5Boot2HibernateMySQL</name>
     <description>Spring Boot Hibernate MySQL</description>
 
     <parent>
