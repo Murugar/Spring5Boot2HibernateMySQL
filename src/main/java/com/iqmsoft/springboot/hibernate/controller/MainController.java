@@ -41,7 +41,7 @@ public class MainController {
         return "customers";
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.REQUIRED)
     @RequestMapping(value = "/customer/add", method = RequestMethod.POST)
     public String addCustomer(@ModelAttribute("customer") Client customer) {
         if (customer.getId() == 0) {
@@ -59,7 +59,7 @@ public class MainController {
         return "redirect:/customers";
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @RequestMapping("/edit/{id}")
     public String editCustomer(@PathVariable("id") int id, Model model) {
         model.addAttribute("customer", this.clientService.getCustomerById(id));

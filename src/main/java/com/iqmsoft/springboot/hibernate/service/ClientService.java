@@ -22,7 +22,7 @@ public class ClientService {
         this.customerDao = customerDao;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void addCustomer(Client customer) {
         this.customerDao.addCustomer(customer);
     }

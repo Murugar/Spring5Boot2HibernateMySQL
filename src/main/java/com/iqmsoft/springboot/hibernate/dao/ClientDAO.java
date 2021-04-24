@@ -1,7 +1,9 @@
 package com.iqmsoft.springboot.hibernate.dao;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,28 +31,46 @@ public class ClientDAO {
     
    
 	
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void addCustomer(Client customer) {
+    	
         Session session = this.sessionFactory.getCurrentSession();
+        
+        Transaction tx = session.beginTransaction();
+        session.setHibernateFlushMode(FlushMode.MANUAL);
         session.persist(customer);
+        session.saveOrUpdate(customer);
+        tx.commit();
+        
         logger.info("Customer successfully saved. Customer details: " + customer);
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updateCustomer(Client customer) {
         Session session = this.sessionFactory.getCurrentSession();
+        
+        Transaction tx = session.beginTransaction();
+        session.setHibernateFlushMode(FlushMode.MANUAL);
+        
         session.update(customer);
+        session.flush();
+        tx.commit();
         logger.info("Customer successfully update. Customer details: " + customer);
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void removeCustomer(int id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Client customer = (Client) session.load(Client.class, new Integer(id));
+        Client customer = (Client) session.load(Client.class, Integer.valueOf(id));
         if (customer != null) {
+        	Transaction tx = session.beginTransaction();
+            session.setHibernateFlushMode(FlushMode.MANUAL);
             session.delete(customer);
+            session.flush();
+            tx.commit();
+            logger.info("Customer successfully removed. Customer details: " + customer);
         }
-        logger.info("Customer successfully removed. Customer details: " + customer);
+        
     }
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
